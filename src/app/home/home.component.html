@@ -1,0 +1,36 @@
+<div class="row">
+  <img style="display: block; margin: 0 auto; width: 140px"
+    src="../../assets/images/logotipo_1.png" />
+  <p class="txt-center">Plataforma online de criptografia de arquivos PDF</p>
+  <br>
+  <div class="column">
+    <div class="form-group">
+      <label for="file">Importe o arquivo PDF:</label>
+      <button type="button" class="form-control btn-input" (click)="addFile(0)">
+        {{ filename === '' ? '+ Adicionar Arquivo' : filename }}
+      </button>
+      <input type="file" class="form-control input-file" id="file" (change)="getFile($event, 0)" accept="application/pdf">
+    </div>
+    <div class="form-group">
+      <label for="password">Digite uma senha para criptografia:</label>
+      <input type="text" id="password" class="form-control" [(ngModel)]="password">
+    </div>
+      
+    <button type="button" class="btn btn-success" (click)="encrypt()">Criptografar</button>
+  </div>
+  <div class="column">
+    <div class="form-group">
+      <label for="file2">Importe o arquivo criptografado:</label>
+      <button type="button" class="form-control btn-input" (click)="addFile(1)">
+        {{ filename2 === '' ? '+ Adicionar Arquivo' : filename2 }}
+      </button>
+      <input type="file" class="form-control input-file" id="file2" (change)="getFile($event, 1)" accept="application/pdf">
+    </div>
+    <div class="form-group">
+      <label for="password2">Digite a senha para descriptografar:</label>
+      <input type="text" id="password2" class="form-control" [(ngModel)]="password2">
+    </div>
+      
+    <button type="button" class="btn btn-success" (click)="decrypt()">Descriptografar</button>
+  </div>
+</div>

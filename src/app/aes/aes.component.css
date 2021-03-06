@@ -1,0 +1,23 @@
+.row {
+    display: block;
+    width: 100%;
+  }
+
+  .column {
+      display: inline-block;
+      width: 100%;
+      padding: 0 10%;
+  }
+
+  .column p {
+      text-align: justify;
+  }
+
+  .txt-center {
+      text-align: center;
+  }
+
+  .ilustracao {
+      display: block;
+      margin: 0 auto;
+  }

@@ -1,0 +1,18 @@
+<div class="row">
+    <h2 class="txt-center">Advanced Encryption Standard (AES)</h2>
+    <p class="txt-center">Saiba mais sobre o tipo de criptografia mais utilizado do mundo</p>
+    <br>
+    <br>
+    <div class="column">
+        <p>Trata-se de uma codificação em bloco simétrica lançada oficialmente em 2012, após cinco anos de desenvolvimento, pelo NIST (Instituto Nacional de Padrões e Tecnologia) nos Estados Unidos. Hoje, é a criptografia mais utilizada do mundo por ser altamente confiável e compatível com diferentes sistemas operacionais.</p>
+        <p>O sistema <b>CryptPDF</b> utiliza a cifra de bloco AES-256, ou seja, criptografa e descriptografa arquivos em PDF em pedaços de 128 bits utilizando chaves criptográficas de 256 bits.</p>
+        <p>Pelo conceito de criptografia simétrica, todas as cifras utilizam a mesma chave para criptografar e descriptografar. Por isso, ao importar um arquivo, o usuário deve informar uma senha. Dessa forma, apenas ele ou quem tiver conhecimento dessa senha poderá descriptografar o arquivo e ler seu conteúdo.</p>
+        <p>Existem diversas formas de operação para as chaves simétricas. O <b>CryptPDF</b> utiliza o CBC (Cypher Block Chaining).</p>
+        <img class="ilustracao" src="https://www.embarcados.com.br/wp-content/uploads/2017/11/aes-Algoritmo-CBC.png">
+        <p>O arquivo PDF é convertido para base64 e enviado para nossa API. Esse plaintext (como é denominado o valor de entrada) é divido em blocos de 128 bits e passa por uma operação XOR junto com o bloco cifrado anterior antes de ser criptografado. Com isso os blocos futuros são dependentes dos blocos anteriores.</p> 
+        <p>Com IV aleatório em cada cifragem, é possível manter a aleatoriedade do ciphertext mesmo com um plaintext igual.</p>
+        <p>Após a criptografia, o valor final é convertido novamente para base64 e devolvido para a nossa interface, onde é feito o download.</p>
+        <br>
+        <small>Fontes: <a href="https://www.cyclonis.com/pt/que-e-criptografia-aes-256/">Cyclonis</a> e <a href="https://www.embarcados.com.br/criptografia-aes/">Embarcados</a></small>
+    </div>
+</div> 
