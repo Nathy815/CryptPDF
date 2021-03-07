@@ -1,4 +1,4 @@
 export const environment = {
   production: false,
-  apiURL: "https://localhost:44388"
+  apiURL: "http://localhost/cryptpdf_api"
 };
