@@ -1,32 +1,43 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { fromEvent, Observable } from 'rxjs';
 import { pluck } from 'rxjs/operators';
 import { Model } from '../model';
 import { environment } from './../../environments/environment';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
+
 export class HomeComponent {
-  constructor(private http : HttpClient) {
+  constructor(private http : HttpClient, private cd : ChangeDetectorRef) {
     this.apiURL = environment.apiURL + "/api/values";
   }
 
   readonly apiURL : string;
+  spinner = faSpinner;
   file: string = "";
   password: string = "";
   filename: string = "";
   file2: string = "";
   password2: string = "";
   filename2: string = "";
+  loading: boolean = false;
+  loading2: boolean = false;
 
   getFile(e: any, type: any) {
     if (e.target.files.length > 0) {
       const reader = new FileReader();
       const file = e.target.files[0];
+      
+      if (file.type != "application/pdf")
+      {
+        alert('Por favor, adicione um arquivo com extensão .pdf');
+        return;
+      }
 
       this.convertFiletoBase64(reader, file)
           .subscribe(base64 => {
@@ -42,21 +53,25 @@ export class HomeComponent {
 
       e.target.value = "";
     }
-    else alert('Adicione um arquivo');
+    else alert('Por favor, dicione um arquivo');
   }
 
-  encrypt() {
+  async encrypt() {
+    this.cd.detach();
+    this.loading = true;
+    this.cd.detectChanges();
+
     let form = new FormData();
     if (this.file.length === 0 || this.password.length === 0)
     {
-      alert('Adicione o arquivo e coloque uma senha!');
+      alert('Por favor, adicione um arquivo e informe uma senha!');
       return;
     }
 
     form.append('file', this.file);
     form.append('password', this.password);
 
-    this.http.post<Model>(
+    await this.http.post<Model>(
       this.apiURL + "/encrypt",
       form
     ).subscribe(res => {
@@ -66,25 +81,31 @@ export class HomeComponent {
         this.download(data, 'encrypted_file');
       }
       else
-        alert('Falha ao criptografar arquivo!');
+        alert('Falha ao criptografar arquivo! Tente novamente mais tarde.');
+
+      this.loading = false;
+      this.cd.detectChanges();
     });
 
     this.clear();
   }
 
-  decrypt() {
+  async decrypt() {
+    this.cd.detach();
+    this.loading2 = true;
+    this.cd.detectChanges();
     let form = new FormData();
     
     if (this.file2.length === 0 || this.password2.length === 0)
     {
-      alert('Adicione o arquivo e coloque uma senha!');
+      alert('Por favor, adicione um arquivo e informe uma senha!');
       return;
     }
 
     form.append('file', this.file2);
     form.append('password', this.password2);
 
-    this.http.post<Model>(
+    await this.http.post<Model>(
       this.apiURL + "/decrypt",
       form
     ).subscribe(res => {
@@ -94,7 +115,10 @@ export class HomeComponent {
         this.download(data, 'decrypted_file');
       }
       else
-        alert('Falha ao descriptografar arquivo!');
+        alert('Falha ao descriptografar arquivo! Tente novamente mais tarde.');
+
+      this.loading2 = false;
+      this.cd.detectChanges();
     });
 
     this.clear();

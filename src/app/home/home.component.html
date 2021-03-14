@@ -6,31 +6,41 @@
   <div class="column">
     <div class="form-group">
       <label for="file">Importe o arquivo PDF:</label>
-      <button type="button" class="form-control btn-input" (click)="addFile(0)">
+      <button type="button" class="form-control btn-input" (click)="addFile(0)" [disabled]="loading">
         {{ filename === '' ? '+ Adicionar Arquivo' : filename }}
       </button>
-      <input type="file" class="form-control input-file" id="file" (change)="getFile($event, 0)" accept="application/pdf">
+      <input type="file" class="form-control input-file" id="file" (change)="getFile($event, 0)" 
+        accept="application/pdf">
     </div>
     <div class="form-group">
       <label for="password">Digite uma senha para criptografia:</label>
-      <input type="text" id="password" class="form-control" [(ngModel)]="password">
+      <input type="password" id="password" class="form-control" autocomplete="new-password"
+        [(ngModel)]="password" [readonly]="loading">
     </div>
       
-    <button type="button" class="btn btn-success" (click)="encrypt()">Criptografar</button>
+    <button type="button" class="btn btn-success" (click)="encrypt()" [disabled]="loading">
+      <span *ngIf="!loading">Criptografar</span>
+      <fa-icon [icon]="spinner" [spin]="true" *ngIf="loading"></fa-icon>
+    </button>
   </div>
   <div class="column">
     <div class="form-group">
       <label for="file2">Importe o arquivo criptografado:</label>
-      <button type="button" class="form-control btn-input" (click)="addFile(1)">
+      <button type="button" class="form-control btn-input" (click)="addFile(1)" [disabled]="loading2">
         {{ filename2 === '' ? '+ Adicionar Arquivo' : filename2 }}
       </button>
-      <input type="file" class="form-control input-file" id="file2" (change)="getFile($event, 1)" accept="application/pdf">
+      <input type="file" class="form-control input-file" id="file2" (change)="getFile($event, 1)" 
+        accept="application/pdf">
     </div>
     <div class="form-group">
       <label for="password2">Digite a senha para descriptografar:</label>
-      <input type="text" id="password2" class="form-control" [(ngModel)]="password2">
+      <input type="password" id="password2" class="form-control" autocomplete="new-password"
+        [(ngModel)]="password2" [readonly]="loading2">
     </div>
       
-    <button type="button" class="btn btn-success" (click)="decrypt()">Descriptografar</button>
+    <button type="button" class="btn btn-success" (click)="decrypt()" [disabled]="loading2">
+      <span *ngIf="!loading2">Descriptografar</span>
+      <fa-icon [icon]="spinner" [spin]="true" *ngIf="loading2"></fa-icon>
+    </button>
   </div>
 </div>
